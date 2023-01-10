@@ -30,3 +30,8 @@ Route::prefix('auth')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
     });
 });
+Route::group(['middleware' => 'auth:api'], function(){
+    // Users
+    Route::get('users', [UserController::class, 'index'])->middleware('isAdmin');
+    Route::get('users/{id}', [UserController::class, 'show'])->middleware('isAdminOrSelf');
+});
